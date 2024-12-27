@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Song Details</title>
+
+</head>
+<body>
+<!-- dynamically display data -->
+<header>
+   <h1 th:text="${entity.getTitle()}">Song title</h1>
+</header>
+<section>
+    <h2 th:text="${entity.getGenre()}">Genre</h2>
+    <h2 th:text="${entity.getReleaseYear()}">Year</h2>
+    <h2>Performers:</h2>
+    <ul>
+        <li th:each="artist : ${entity.getPerformers()}" th:text="${artist.getFirstName()} + ' ' + ${artist.getLastName()}" >Jon Bon Jovi</li>
+    </ul>
+</section>
+
+</body>
+</html>

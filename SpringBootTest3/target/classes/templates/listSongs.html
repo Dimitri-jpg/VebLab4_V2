@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Songs Homepage - Welcome to My Music Store</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to My Music Store</h1>
+</header>
+
+<div>
+    <br>
+    <button th:if="${!isUser}"><a href="/login" >Login</a></button>
+    <button th:if="${isUser}"><a href="/logout" >Logout</a></button>
+    <br>
+    <br>
+</div>
+
+<main>
+    <h2>Choose a song:</h2>
+    <!-- Display radio buttons for each song,
+            the value should be the trackId
+            and the displayed text should be Title: <songTitle>, Genre:<genre>, Release Year: <releaseYear> -->
+    <form th:method="POST" th:action="@{/artist}">
+        <div th:each="song : ${songList}" aria-selected="false">
+            <input type="radio" name="songRadio" th:id="${song.getTrackId()}" th:value="${song.getTrackId()}" aria-selected="true">
+            <label th:for="${song.getTrackId()}" th:text="'Title: ' + ${song.getTitle()} + ', Genre: ' + ${song.getGenre()} + ', Release Year: ' + ${song.getReleaseYear()}"></label>
+            <!-- <button th:id="'edit-'+${song.getId()}"> Edit</button>
+            <button th:id="'delete-'+${song.getId()}"> Delete</button> -->
+            <a th:href="@{/songs/album/{albumId}(albumId=${song.getAlbum().getId()})}">
+                <span th:text="'Album: ' + ${song.getAlbum().getName()}"></span>
+            </a>
+            <a th:href="@{/songs/edit/{songId}(songId=${song.id})}" th:if="${isAdmin}">Edit</a>
+            <a th:href="@{/songs/delete/{id}(id=${song.id})}" th:if="${isAdmin}">Delete</a>
+            <br>
+        </div>
+        <br>
+        <input type='submit' value='Submit'>
+    </form>
+
+    <br>
+    <a href="/songs/add" style="text-decoration: none;" th:if="${isAdmin}">
+        <button>Add New Song</button>
+    </a>
+
+</main>
+</body>
+</html>
